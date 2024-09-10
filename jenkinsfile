@@ -21,7 +21,7 @@ pipeline {
             }
        stage('Create Docker Image') {
            steps {
-               sh 'docker build -t user977/medicure-demo:1.0 .'
+               sh 'docker build -t user977/health-care-demo:1.0 .'
                       }
                   }
     }
