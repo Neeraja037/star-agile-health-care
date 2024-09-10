@@ -2,7 +2,7 @@ resource "aws_instance" "prod-server" {
   ami = "ami-0e86e20dae9224db8"
   instance_type = "t2.micro"
   key_name = "keypair2"
-  vpc_security_group_ids = ["sg-09c76808477551640"]
+  vpc_security_group_ids = ["sg-022360910137b30cb"]
   connection {
      type = "ssh"
      user = "ubuntu"
