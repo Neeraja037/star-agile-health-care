@@ -4,7 +4,7 @@ resource "aws_instance" "prod-server" {
   key_name = "keypair2"
   vpc_security_group_ids = ["sg-022360910137b30cb"]
   connection {
-     type = "ssh"
+     type = "All traffic"
      user = "ubuntu"
      private_key = file("./keypair2.pem")
      host = self.public_ip
