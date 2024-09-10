@@ -24,5 +24,17 @@ pipeline {
                sh 'docker build -t user977/medicure-demo:2.0 .'
                       }
                   }
+        stage('Docker-Login') {
+           steps {
+               withCredentials([usernamePassword(credentialsId: 'Docker-login', passwordVariable: 'dockerpassword', usernameVariable: 'dockerlogin')]) {
+               sh 'docker login -u ${dockerlogin} -p ${dockerpassword}'
+                                   }
+                        }
+                }
+       stage('Push-Image') {
+           steps {
+               sh 'docker push user977/medicure-demo:2.0'
+                     }
+                }
   }
 }
