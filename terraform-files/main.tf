@@ -1,12 +1,12 @@
 resource "aws_instance" "prod-server" {
-  ami = "ami-0e86e20dae9224db8"
+  ami = "ami-05134c8ef96964280"
   instance_type = "t2.micro"
-  key_name = "keypair2"
-  vpc_security_group_ids = ["sg-08f1f602849266f99"]
+  key_name = "staragile"
+  vpc_security_group_ids = ["sg-0fe8a7968d549f29f"]
   connection {
      type = "All traffic"
      user = "ubuntu"
-     private_key = file("./keypair2.pem")
+     private_key = file("./staragile.pem")
      host = self.public_ip
      }
   provisioner "remote-exec" {
