@@ -49,11 +49,11 @@ pipeline {
 }
 }
 
-              stage('Terraform Operations for test workspace') {
+              stage('Terraform Operations for test-server workspace') {
       steps {
         script {
           sh '''
-            terraform workspace select test || terraform workspace new test
+            terraform workspace select test-server || terraform workspace new test-server
             terraform init
             terraform plan
             terraform destroy -auto-approve
@@ -61,7 +61,7 @@ pipeline {
         }
       }
     }
-    stage('Terraform destroy & apply for test workspace') {
+    stage('Terraform destroy & apply for test-server workspace') {
       steps {
         sh 'terraform apply -auto-approve'
       }
