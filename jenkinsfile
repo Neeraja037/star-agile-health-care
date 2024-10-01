@@ -36,9 +36,50 @@ pipeline {
                sh 'docker push user977/health-care-apps:1.0'
                      }
                 }
+                 stage('Config & Deployment') {
+            steps {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AwsAccessKey', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    dir('terraform-files') {
+                    sh 'sudo chmod 600 staragile.pem'
+                    sh 'terraform init'
+                    sh 'terraform validate'
+                    sh 'terraform apply --auto-approve'
+}
+    }
+}
+}
+
+              stage('Terraform Operations for test workspace') {
+      steps {
+        script {
+          sh '''
+            terraform workspace select test || terraform workspace new test
+            terraform init
+            terraform plan
+            terraform destroy -auto-approve
+          '''
+        }
+      }
+    }
+    stage('Terraform destroy & apply for test workspace') {
+      steps {
+        sh 'terraform apply -auto-approve'
+      }
+    }
+    stage('get kubeconfig') {
+      steps {
+        sh 'aws eks update-kubeconfig --region us-west-2 --name test-clusterr'
+        sh 'kubectl get nodes'
+      }
+    }
+    stage('Deploying the application') {
+      steps {
+        sh 'kubectl apply -f app-deploy.yml'
+        sh 'kubectl get svc'
+      }
+    }
     }
 }
 
-9lo6hLSwAPCtDznaiq1IzLIQm41o/GHrnp9IBDfB
         
 
