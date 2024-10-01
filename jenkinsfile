@@ -14,6 +14,16 @@ pipeline {
 
             }        
         }
+        stage('Generate Test Reports') {
+               steps {
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Health-care/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                }
+               }
+               stage('Create Docker Image') {
+                  steps {
+                   sh 'docker build -t user977/health-care-apps:1.0 .'
+                        }
+                     }
     }
 }
 
