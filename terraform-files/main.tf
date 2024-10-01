@@ -4,8 +4,8 @@ resource "aws_instance" "prod-server" {
   key_name = "staragile"
   vpc_security_group_ids = ["sg-0fe8a7968d549f29f"]
   connection {
-     type = "custom"
-     user = "ubuntu"
+     type = "ssh"
+     user = "ec2-user"
      private_key = file("./staragile.pem")
      host = self.public_ip
      }
@@ -13,7 +13,7 @@ resource "aws_instance" "prod-server" {
      inline = ["echo 'wait to start the instance' "]
   }
   tags = {
-     Name = "prod-server"
+     Name = "test-server"
      }
   provisioner "local-exec" {
      command = "echo ${aws_instance.prod-server.public_ip} > inventory"
