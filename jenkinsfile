@@ -1,9 +1,6 @@
 pipeline {
     agent any
-        environment {
-    AWS_ACCESS_KEY = credentials('aws-access-key')
-    AWS_SECRET_KEY = credentials('aws-secret-key')
-  } 
+        
     
 
     stages {
@@ -39,6 +36,18 @@ pipeline {
                sh 'docker push user977/health-care-apps:1.0'
                      }
                 }
+                stage('Config & Deployment') {
+            steps {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AwsAccessKey', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    dir('terraform-files') {
+                    sh 'sudo chmod 600 staragile.pem'
+                    sh 'terraform init'
+                    sh 'terraform validate'
+                    sh 'terraform apply --auto-approve'
+}
+    }
+}
+} 
                  stage('Terraform Operations for test workspace') {
       steps {
         script {
