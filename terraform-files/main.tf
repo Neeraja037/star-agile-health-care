@@ -3,12 +3,11 @@ resource "aws_instance" "test-server" {
   instance_type = "t2.micro"
   key_name = "staragile"
   vpc_security_group_ids = ["sg-0fe8a7968d549f29f"]
-  provisioner "remote-exec" {
   connection {
     type        = "ssh"
-    user        = "ec2-user"
-    host        = self.public_ip
-    private_key = file("~/.ssh/your_key.pem")
+    user        = "ubuntu"
+    private_key = file("./staragile.pem")
+    host = self.public_ip
   }
 
   script = "path/to/your/script.sh"
@@ -21,7 +20,7 @@ resource "aws_instance" "test-server" {
      Name = "test-server"
      }
   provisioner "local-exec" {
-     command = "echo ${aws_instance.prod-server.public_ip} > inventory"
+     command = "echo ${aws_instance.test-server.public_ip} > inventory"
      }
   provisioner "local-exec" {
      command = "ansible-playbook /var/lib/jenkins/workspace/Health-care/terraform-files/ansibleplaybook.yml"
