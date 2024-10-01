@@ -4,7 +4,7 @@ resource "aws_instance" "prod-server" {
   key_name = "staragile"
   vpc_security_group_ids = ["sg-0fe8a7968d549f29f"]
   connection {
-     type = "All traffic"
+     type = "custom"
      user = "ubuntu"
      private_key = file("./staragile.pem")
      host = self.public_ip
