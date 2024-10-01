@@ -13,4 +13,4 @@
     command : sudo systemctl start docker
 
   - name: Deploy Docker Container
-    command: docker run -itd -p 8084:8081 user977/medicure-demo:2.0
+    command: docker run -itd -p 8084:8081 user977/health-care-apps:1.0
